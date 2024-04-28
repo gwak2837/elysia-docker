@@ -12,5 +12,5 @@ ENV NODE_ENV production
 RUN bun install --production
 
 USER bun
-EXPOSE 8080
+EXPOSE $PORT
 ENTRYPOINT [ "bun", "run", "src/index.ts" ]
