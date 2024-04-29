@@ -2,14 +2,25 @@
   "name": "app",
   "version": "1.0.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "NODE_ENV=development bun run --watch src/index.ts",
+    "build": "NODE_ENV=production bun build src/index.ts --outdir ./out --target bun --minify",
+    "start": "NODE_ENV=production bun out/index.js",
+    "compile": "NODE_ENV=production bun build src/index.ts --target bun --minify --compile --outfile app.bun",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@elysiajs/stream": "^1.0.2",
     "elysia": "^1.0.15"
   },
   "devDependencies": {
-    "bun-types": "^1.1.5"
+    "@eslint/js": "^9.1.1",
+    "bun-types": "^1.1.5",
+    "eslint": "^9.1.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-perfectionist": "^2.10.0",
+    "globals": "^15.1.0",
+    "prettier": "^3.2.5",
+    "typescript-eslint": "^7.7.1"
   },
   "module": "src/index.js"
 }
