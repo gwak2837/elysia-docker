@@ -1,4 +1,4 @@
-apiVersion: elysia/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: elysia-deployment
@@ -14,9 +14,12 @@ spec:
     spec:
       containers:
         - name: elysia
-          image: ghcr.io/gwak2837/elysia-docker:c69fafe7f1a82e7ac98812811928c34ed2cf6f85
+          image: ghcr.io/gwak2837/elysia-docker:sha-b6d2418
           ports:
-            - containerPort: 80
+            - containerPort: 4000
+          env:
+            - name: PORT
+              value: 4000
           resources:
             requests:
               memory: '128Mi'
