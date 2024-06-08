@@ -14,6 +14,25 @@ spec:
     spec:
       containers:
         - name: elysia
-          image: nginx:1.21.6
+          image: ghcr.io/gwak2837/elysia-docker:c69fafe7f1a82e7ac98812811928c34ed2cf6f85
           ports:
             - containerPort: 80
+          resources:
+            requests:
+              memory: '128Mi'
+              cpu: '500m'
+            limits:
+              memory: '256Mi'
+              cpu: '1'
+          # livenessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: 80
+          #   initialDelaySeconds: 3
+          #   periodSeconds: 10
+          # readinessProbe:
+          #   httpGet:
+          #     path: /ready
+          #     port: 80
+          #   initialDelaySeconds: 3
+          #   periodSeconds: 10
