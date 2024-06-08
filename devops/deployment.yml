@@ -1,0 +1,19 @@
+apiVersion: elysia/v1
+kind: Deployment
+metadata:
+  name: elysia-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: elysia
+  template:
+    metadata:
+      labels:
+        app: elysia
+    spec:
+      containers:
+        - name: elysia
+          image: nginx:1.21.6
+          ports:
+            - containerPort: 80
