@@ -1,5 +1,5 @@
 # Build time
-FROM oven/bun:1-alpine as build
+FROM oven/bun:1-alpine as builder
 
 WORKDIR /app
 ENV NODE_ENV production
@@ -18,7 +18,7 @@ FROM oven/bun:1-alpine as runner
 WORKDIR /app
 ENV NODE_ENV production
 
-COPY --from=build /app/out .
+COPY --from=builder /app/out .
 
 USER bun
 EXPOSE $PORT
