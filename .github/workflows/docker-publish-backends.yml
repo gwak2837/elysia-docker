@@ -63,7 +63,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch # 현재 브랜치 이름을 태그로 사용
-            type=sha # 현재 커밋 해시를 태그로 사용
+            type=sha,format=long # 현재 커밋 해시를 태그로 사용
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
