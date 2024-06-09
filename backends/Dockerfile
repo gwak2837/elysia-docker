@@ -18,7 +18,7 @@ FROM oven/bun:1-alpine as runner
 WORKDIR /app
 ENV NODE_ENV production
 
-COPY --from=builder /app/out .
+COPY --from=builder --chown=bun /app/out .
 
 USER bun
 EXPOSE $PORT
