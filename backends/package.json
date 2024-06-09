@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "backends",
   "version": "1.0.0",
   "scripts": {
     "dev": "NODE_ENV=development bun run --watch src/index.ts",
@@ -13,14 +13,7 @@
     "elysia": "^1.0.15"
   },
   "devDependencies": {
-    "@eslint/js": "^9.1.1",
-    "bun-types": "^1.1.5",
-    "eslint": "^9.1.1",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-perfectionist": "^2.10.0",
-    "globals": "^15.1.0",
-    "prettier": "^3.2.5",
-    "typescript-eslint": "^7.7.1"
+    "bun-types": "^1.1.5"
   },
   "module": "src/index.js"
 }
