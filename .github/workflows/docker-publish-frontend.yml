@@ -1,4 +1,4 @@
-name: Docker
+name: Docker Publish Frontend
 
 on:
   push:
@@ -6,12 +6,11 @@ on:
     paths:
       - '.github/workflows/**'
       - 'frontends/**'
-      - 'backends/**'
   pull_request:
     branches: ['main']
     paths:
       - 'frontends/**'
-      - 'backends/**'
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
@@ -50,14 +49,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-  frontend-build:
-    runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, 'frontends/')
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Extract Docker metadata (frontend)
+      - name: Extract Docker metadata
         id: meta-frontend
         uses: docker/metadata-action@v5.0.0
         with:
@@ -66,7 +58,7 @@ jobs:
             type=ref,event=branch
             type=sha,format=long
 
-      - name: Build and push Docker image (frontend)
+      - name: Build and push Docker image
         id: build-and-push-frontend
         uses: docker/build-push-action@v5.0.0
         with:
@@ -78,44 +70,9 @@ jobs:
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
 
-      - name: Sign the published Docker image (frontend)
+      - name: Sign the published Docker image
         if: ${{ github.event_name != 'pull_request' }} && steps.build-and-push-frontend.outputs.digest
         env:
           TAGS: ${{ steps.meta-frontend.outputs.tags }}
           DIGEST: ${{ steps.build-and-push-frontend.outputs.digest }}
-        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
-
-  backend-build:
-    runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, 'backends/')
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Extract Docker metadata (backend)
-        id: meta-backend
-        uses: docker/metadata-action@v5.0.0
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend
-          tags: |
-            type=ref,event=branch
-            type=sha,format=long
-
-      - name: Build and push Docker image (backend)
-        id: build-and-push-backend
-        uses: docker/build-push-action@v5.0.0
-        with:
-          context: ./backends
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta-backend.outputs.tags }}
-          labels: ${{ steps.meta-backend.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          platforms: linux/amd64,linux/arm64
-
-      - name: Sign the published Docker image (backend)
-        if: ${{ github.event_name != 'pull_request' }} && steps.build-and-push-backend.outputs.digest
-        env:
-          TAGS: ${{ steps.meta-backend.outputs.tags }}
-          DIGEST: ${{ steps.build-and-push-backend.outputs.digest }}
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
