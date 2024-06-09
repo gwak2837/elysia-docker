@@ -26,5 +26,5 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
-EXPOSE $PORT
+EXPOSE 3000
 ENTRYPOINT [ "bun", "server.js" ]

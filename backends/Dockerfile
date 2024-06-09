@@ -21,5 +21,5 @@ ENV NODE_ENV production
 COPY --from=builder --chown=bun /app/out .
 
 USER bun
-EXPOSE $PORT
+EXPOSE 4000
 ENTRYPOINT [ "bun", "index.js" ]
