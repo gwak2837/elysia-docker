@@ -2,18 +2,22 @@ name: Docker Publish Backend
 
 on:
   push:
-    branches: ['main']
+    branches:
+      - 'main'
+      - 'release/**'
     paths:
       - '.github/workflows/docker-publish-backend.yml'
       - 'backends/**'
   pull_request:
-    branches: ['main']
+    branches:
+      - 'main'
+      - 'release/**'
     paths:
+      - '.github/workflows/docker-publish-backend.yml'
       - 'backends/**'
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build:
@@ -53,7 +57,7 @@ jobs:
         id: meta-backend
         uses: docker/metadata-action@v5.0.0
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/backend
           tags: |
             type=ref,event=branch
             type=sha,format=long
