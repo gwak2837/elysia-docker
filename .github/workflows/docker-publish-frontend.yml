@@ -2,18 +2,22 @@ name: Docker Publish Frontend
 
 on:
   push:
-    branches: ['main']
+    branches:
+      - 'main'
+      - 'release/**'
     paths:
       - '.github/workflows/docker-publish-frontend.yml'
       - 'frontends/**'
   pull_request:
-    branches: ['main']
+    branches:
+      - 'main'
+      - 'release/**'
     paths:
+      - '.github/workflows/docker-publish-frontend.yml'
       - 'frontends/**'
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build:
@@ -53,7 +57,7 @@ jobs:
         id: meta-frontend
         uses: docker/metadata-action@v5.0.0
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/frontend
           tags: |
             type=ref,event=branch
             type=sha,format=long
